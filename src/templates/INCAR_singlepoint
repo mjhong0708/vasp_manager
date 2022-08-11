@@ -1,0 +1,22 @@
+Global Parameters
+ISPIN  =  2            
+LREAL  = .FALSE.       
+ENCUT  =  520        
+PREC   =  Accurate   
+LWAVE  = .TRUE.        
+LCHARG = .TRUE.        
+ADDGRID= .TRUE.        
+LVTOT  = .TRUE.      (Write total electrostatic potential into LOCPOT or not)
+LVHAR  = .TRUE.      (Write ionic + Hartree electrostatic potential into LOCPOT or not)
+ 
+Static Calculation
+ISMEAR =  0            (gaussian smearing method)
+SIGMA  =  0.05         (please check the width of the smearing)
+LORBIT =  11           (PAW radii for projected DOS)
+NEDOS  =  2001         (DOSCAR points)
+NELM   =  120           (Max electronic SCF steps)
+EDIFF  =  1E-05        (SCF energy convergence, in eV)
+
+Additional Parameters 
+{% for tag in incar_tags %}{{tag.name}} = {{tag.value}}
+{% endfor %}

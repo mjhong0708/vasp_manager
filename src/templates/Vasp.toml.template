@@ -1,0 +1,17 @@
+[slurm]
+job_name = "VASP job"
+partition = "g1"
+num_nodes = 1
+num_tasks = 16
+
+[vasp]
+version = {{ vasp_version }}
+bin = {{ vasp_bin }}
+input = "POSCAR"
+potcar = "recommended"
+kpoints = { scheme = "Gamma", mesh = [1, 1, 1] }
+
+[vasp.incar]
+base = {{ incar_base }}
+
+[vasp.incar.tags]
