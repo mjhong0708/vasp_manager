@@ -94,7 +94,7 @@ impl JobConfig {
         context.insert("incar_tags", &additional_tags);
         let rendered = TERA
             .render(&base_incar, &context)
-            .expect(&format!("Template {} not found.", base_incar));
+            .unwrap_or_else(|_| panic!("Template {} not found.", base_incar));
         let incar_path = format!("{}/INCAR", self.job_dir);
         std::fs::write(incar_path, rendered)?;
         Ok(())
