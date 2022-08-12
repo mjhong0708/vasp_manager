@@ -1,6 +1,5 @@
 use super::potcargen::{generate_potcar, PotcarMode};
 use super::template::{IncarTag, TERA};
-use super::util::format_value;
 
 use eyre::Result;
 use std::collections::HashMap;
@@ -8,6 +7,15 @@ use std::fs::read_to_string;
 use std::path::Path;
 use tera::Context;
 use toml::Value;
+
+pub fn format_value(value: &Value) -> String {
+    let formatted = format!("{}", value);
+    if formatted.starts_with('"') && formatted.ends_with('"') {
+        formatted[1..formatted.len() - 1].to_string()
+    } else {
+        formatted
+    }
+}
 
 pub struct JobConfig {
     pub toml_contents: Value,
@@ -17,7 +25,8 @@ pub struct JobConfig {
 impl JobConfig {
     pub fn from_dir(job_dir: &str) -> Result<JobConfig> {
         let config_file = Path::new(job_dir).join("Vasp.toml");
-        let toml_contents = toml::from_str(&read_to_string(config_file)?)?;
+        let toml_str = read_to_string(config_file).map_err(|_| eyre::eyre!("Vasp.toml not found."))?;
+        let toml_contents = toml::from_str(&toml_str).map_err(|_| eyre::eyre!("Could not parse Vasp.toml."))?;
         Ok(JobConfig {
             toml_contents,
             job_dir: job_dir.into(),

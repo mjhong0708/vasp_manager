@@ -1,0 +1,35 @@
+Global Parameters
+ISPIN   =  2
+LREAL   =  AUTO
+ENCUT   =  520.0
+ALGO    =  Fast
+LCHARG  = .FALSE.
+LWAVE   = .FALSE.
+LPLANE  = .TRUE.
+
+Electronic Relaxation
+NELM    =  120
+NELMIN    =    4
+NELMDL  =  -12
+EDIFF   =  1E-04
+ISMEAR  =  0
+SIGMA   =  0.02
+ISYM    =  0
+
+Corrections
+IVDW    =  11
+
+AIMD Calculation
+IBRION  =  0
+ISIF    =  2
+NSW     =  10000
+SMASS   =  3
+POTIM   =  1
+TEBEG   =  400
+TEEND   =  400
+NBLOCK  =  10
+IWAVPR  =  12
+
+Additional Parameters 
+{% for tag in incar_tags %}{{tag.name}} = {{tag.value}}
+{% endfor %}

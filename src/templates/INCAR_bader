@@ -5,6 +5,7 @@ ENCUT  =  520
 PREC   =  Accurate   
 LWAVE  = .TRUE.        
 LCHARG = .TRUE.        
+LAECHG = .TRUE.
 ADDGRID= .TRUE.        
 LVTOT  = .TRUE.      (Write total electrostatic potential into LOCPOT or not)
 LVHAR  = .TRUE.      (Write ionic + Hartree electrostatic potential into LOCPOT or not)

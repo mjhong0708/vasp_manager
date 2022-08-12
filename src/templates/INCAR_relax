@@ -20,6 +20,9 @@ ISIF   =  2
 EDIFFG = -1E-02
 ISYM =  0
 
+Corrections
+IVDW   = 11
+
 Additional Parameters 
 {% for tag in incar_tags %}{{tag.name}} = {{tag.value}}
 {% endfor %}
