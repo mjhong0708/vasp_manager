@@ -1,0 +1,27 @@
+[slurm]
+job_name = "VASP job"  # Name of the job for SLURM job submit
+partition = "g1"       # Node partition
+num_nodes = 1          # Number of total nodes
+num_tasks = 16         # Number of total cores(tasks)
+
+[vasp]
+version = {{ vasp_version }}                         # Version of VASP
+bin = {{ vasp_bin }}                          # VASP executable
+input = "POSCAR"                          # Input file (Do not modify it currently)
+potcar = "recommended"                    # POTCAR generation
+# Or, you can specify which potcar to use
+# potcar = { Gd = "Gd_3", O = "O_p" }
+kpoints = { scheme = "Gamma", mesh = [1, 1, 1] }     # KPOINTS generation
+# or use density in reciprocal space (Angstrom^-1)
+# kpoints = { scheme = "Gamma", density = 2.5}
+
+[vasp.incar]
+base = {{ incar_base }}                              # Base INCAR template
+# Currently available templates: relax, singlepoint, bader, aimd
+# To see the contents of templates, run `vasp_manager show_incar`.
+
+[vasp.incar.tags]
+# Additional tags go here
+# ex)
+# NCORE = 16
+# LVTOT = ".TRUE."
