@@ -7,3 +7,4 @@ edition = "2021"
 
 [dependencies]
 poscar = {path = "../poscar"}
+thiserror = "1.0.32"

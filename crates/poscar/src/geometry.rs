@@ -101,7 +101,7 @@ mod tests {
     #[test]
     fn test_reciprocal_lattice() {
         let pi = std::f64::consts::PI;
-        let poscar = Poscar::from_file("test_data/POSCAR_slab");
+        let poscar = Poscar::from_file("test_data/POSCAR_slab").unwrap();
         let reciprocal_lattice = poscar.get_reciprocal_lattice();
 
         assert!((reciprocal_lattice.a[0] / (2.0 * pi) - 1.80384383e-01) < 1e-6);

@@ -34,12 +34,12 @@ pub enum CoordinateSystem {
 }
 
 impl FromStr for CoordinateSystem {
-    type Err = String;
+    type Err = io::PoscarParseError;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
             s if s.to_ascii_lowercase().starts_with('c') => Ok(CoordinateSystem::Cartesian),
             s if s.to_ascii_lowercase().starts_with('d') => Ok(CoordinateSystem::Direct),
-            _ => Err(format!("Invalid coordinate system: {}", s)),
+            _ => Err(io::PoscarParseError::UnknownCoordinateSystem(s.to_string())),
         }
     }
 }
@@ -89,13 +89,13 @@ mod tests {
     use super::*;
     #[test]
     fn test_read_no_seldyn() {
-        let poscar = Poscar::from_file("test_data/POSCAR");
+        let poscar = Poscar::from_file("test_data/POSCAR").unwrap();
         println!("{}", poscar);
     }
 
     #[test]
     fn test_read_seldyn() {
-        let poscar = Poscar::from_file("test_data/POSCAR_slab");
+        let poscar = Poscar::from_file("test_data/POSCAR_slab").unwrap();
         println!("{}", poscar);
     }
 }

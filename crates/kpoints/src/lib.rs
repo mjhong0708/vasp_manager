@@ -1,15 +1,11 @@
 use poscar::Lattice;
 use std::{fmt::Display, str::FromStr};
+use thiserror::Error;
 
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub struct KpointsError {
-    pub message: String,
-}
-
-impl Display for KpointsError {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        write!(f, "{}", self.message)
-    }
+#[derive(Error, Debug, Clone, PartialEq, Eq)]
+pub enum KpointsError {
+    #[error("Unknown scheme {0}.")]
+    UnknownScheme(String),
 }
 
 pub enum KpointsScheme {
@@ -32,9 +28,7 @@ impl FromStr for KpointsScheme {
         match s {
             s if s.to_ascii_lowercase().starts_with('g') => Ok(KpointsScheme::Gamma),
             s if s.to_ascii_lowercase().starts_with('m') => Ok(KpointsScheme::MonkhorstPack),
-            _ => Err(KpointsError {
-                message: format!("Unrecognized Scheme: {}", s),
-            }),
+            _ => Err(KpointsError::UnknownScheme(s.to_string())),
         }
     }
 }
@@ -94,7 +88,7 @@ mod tests {
 
     #[test]
     fn test_kpoints_from_density() {
-        let poscar = Poscar::from_file("../poscar/test_data/POSCAR_slab");
+        let poscar = Poscar::from_file("../poscar/test_data/POSCAR_slab").unwrap();
         let kpoints = Kpoints::from_density(KpointsScheme::Gamma, 4.0, poscar.lattice);
         println!("{}", kpoints);
     }
