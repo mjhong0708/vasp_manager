@@ -1,7 +1,6 @@
 pub mod check_util;
 pub mod cli;
 pub mod config_parser;
-pub mod potcargen;
 pub mod template;
 
 use check_util::{check_task, check_vasp_bin, check_vasp_version};
