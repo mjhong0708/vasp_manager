@@ -11,6 +11,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     match args.command {
         cli::Command::Init(init_job) => init_job.run()?,
         cli::Command::Create(create_job) => create_job.run()?,
+        cli::Command::Submit(submit_job) => submit_job.run()?,
         cli::Command::Continue(continue_job) => continue_job.run()?,
         cli::Command::ShowIncar(show_incar) => show_incar.run(),
     }

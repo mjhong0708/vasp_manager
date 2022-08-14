@@ -1,7 +1,7 @@
+use super::submit_slurm;
 use crate::config_parser;
 use clap::Parser;
 use eyre::Result;
-use std::process;
 
 #[derive(Parser)]
 pub struct CreateJob {
@@ -21,12 +21,7 @@ impl CreateJob {
         if self.submit {
             let job_name = &job_config.toml_contents["slurm"]["job_name"].as_str().unwrap();
             std::env::set_current_dir(job_config.job_dir)?;
-            let output = process::Command::new("sbatch")
-                .arg("-J")
-                .arg(job_name)
-                .arg("job_script.sh")
-                .output()?;
-            println!("{}", String::from_utf8_lossy(&output.stdout));
+            submit_slurm(job_name)?;
         }
         Ok(())
     }

@@ -18,6 +18,9 @@ pub enum Command {
     /// Create a job from Vasp.toml.
     #[clap(name = "create_job")]
     Create(CreateJob),
+    /// Submit a job to slurm.
+    #[clap(name = "submit_job")]
+    Submit(SubmitJob),
     /// Continue existing job in new directory.
     #[clap(name = "continue_job")]
     Continue(ContinueJob),
