@@ -1,10 +1,11 @@
 use super::config;
 use super::config::format_value;
-use crate::template::{IncarTag, TERA};
+use crate::template::{IncarTag, TEMPLATES};
 use eyre::Result;
 use tera::Context;
 
 impl config::JobConfig {
+    /// Write the INCAR file from pre-defined templates and additional tags.
     pub fn write_incar(&self) -> Result<()> {
         let incar_config = &self.toml_contents["vasp"]["incar"];
         let base_incar = {
@@ -25,7 +26,7 @@ impl config::JobConfig {
         };
         let mut context = Context::new();
         context.insert("incar_tags", &additional_tags);
-        let rendered = TERA
+        let rendered = TEMPLATES
             .render(&base_incar, &context)
             .unwrap_or_else(|_| panic!("Template {} not found.", base_incar));
         let incar_path = format!("{}/INCAR", self.job_dir);

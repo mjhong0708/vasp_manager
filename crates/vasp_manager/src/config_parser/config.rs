@@ -12,12 +12,15 @@ pub fn format_value(value: &Value) -> String {
     }
 }
 
+/// Job configuration.
+/// Implements VASP job related methods.
 pub struct JobConfig {
     pub toml_contents: Value,
     pub job_dir: String,
 }
 
 impl JobConfig {
+    /// Parses the config file and returns a `JobConfig` object.
     pub fn from_dir(job_dir: &str) -> Result<JobConfig> {
         let config_file = Path::new(job_dir).join("Vasp.toml");
         let toml_str = read_to_string(config_file).map_err(|_| eyre::eyre!("Vasp.toml not found."))?;
@@ -28,6 +31,7 @@ impl JobConfig {
         })
     }
 
+    /// Writes input files needed for VASP and SLURM.
     pub fn create_job(&self) -> Result<()> {
         println!("Creating job in {}", self.job_dir);
         println!("Writing POTCAR");

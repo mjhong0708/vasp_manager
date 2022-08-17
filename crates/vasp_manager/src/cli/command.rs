@@ -2,7 +2,12 @@ use super::subcommands::*;
 use clap::{Parser, Subcommand};
 
 #[derive(Parser)]
-#[clap(author = "Minjoon Hong <mjhong0708@yonsei.ac.kr>", version, about = "Vasp job manager", long_about = None)]
+#[clap(
+    author = "Minjoon Hong <mjhong0708@yonsei.ac.kr>",
+    version,
+    about = "Vasp job manager",
+    long_about = "A CLI app for creating & submitting Vasp jobs."
+)]
 #[clap(propagate_version = true)]
 pub struct Cli {
     #[clap(subcommand)]

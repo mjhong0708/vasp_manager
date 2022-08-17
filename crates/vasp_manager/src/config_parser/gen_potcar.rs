@@ -4,6 +4,7 @@ use potcar::{generate_potcar, PotcarMode};
 use std::collections::HashMap;
 
 impl config::JobConfig {
+    /// Generates POTCAR file from POSCAR.
     pub fn write_potcar(&self) -> Result<()> {
         let potcar_mode = match &self.toml_contents["vasp"]["potcar"].as_str() {
             Some(s) if s == &"recommended" => PotcarMode::Recommended,

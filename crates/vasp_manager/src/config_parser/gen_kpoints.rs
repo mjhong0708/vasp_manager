@@ -4,6 +4,9 @@ use kpoints::{Kpoints, KpointsScheme};
 use poscar::Poscar;
 
 impl config::JobConfig {
+    /// Generates KPOINTS file from POSCAR.
+    /// Available schemes are "Gamma" and "Monkhorst-Pack".
+    /// User can either specify the mesh or density in reciprocal space.
     pub fn write_kpoints(&self) -> Result<()> {
         let kpoints_config = &self.toml_contents["vasp"]["kpoints"];
         let scheme: KpointsScheme = kpoints_config["scheme"]

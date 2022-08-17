@@ -20,7 +20,7 @@ pub struct IncarTag {
 }
 
 lazy_static! {
-    pub static ref TERA: Tera = {
+    pub static ref TEMPLATES: Tera = {
         let mut tera = Tera::default();
         tera.add_raw_template("job_script.sh", JOB_SCRIPT).unwrap();
         tera.add_raw_template("KPOINTS", KPOINTS).unwrap();

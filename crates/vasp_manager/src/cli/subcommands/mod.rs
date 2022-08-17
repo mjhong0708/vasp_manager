@@ -13,6 +13,7 @@ pub use submit_job::*;
 
 use eyre::Result;
 
+/// Submits slurm job in current directory.
 pub fn submit_slurm(job_name: &str) -> Result<()> {
     let output = std::process::Command::new("sbatch")
         .arg("-J")

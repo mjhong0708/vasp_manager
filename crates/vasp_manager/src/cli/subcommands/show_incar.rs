@@ -1,5 +1,6 @@
 use crate::template;
 use clap::Parser;
+use eyre::Result;
 use inquire::error::InquireError;
 use inquire::Select;
 use std::collections::HashMap;
@@ -8,7 +9,7 @@ use std::collections::HashMap;
 pub struct ShowIncar;
 
 impl ShowIncar {
-    pub fn run(&self) {
+    pub fn run(&self) -> Result<()> {
         let mut all_incar_templates = vec![];
         let mut all_incar_descriptions = vec![];
         for key in template::INCAR_TEMPLATES.keys() {
@@ -32,5 +33,6 @@ impl ShowIncar {
                 println!("{}", e);
             }
         }
+        Ok(())
     }
 }

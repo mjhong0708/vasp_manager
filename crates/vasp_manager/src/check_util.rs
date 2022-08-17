@@ -37,6 +37,7 @@ lazy_static! {
     };
 }
 
+/// Checks if the vasp version is available.
 pub fn check_vasp_version(version: &str) -> Result<String, String> {
     match VASP_VERSIONS.contains(&version.to_string()) {
         true => Ok(version.to_string()),
@@ -48,8 +49,9 @@ pub fn check_vasp_version(version: &str) -> Result<String, String> {
     }
 }
 
+/// Checks if the task is available in INCAR templates.
 pub fn check_task(task: &str) -> Result<String, String> {
-    let available_tasks: Vec<&str> = template::TERA
+    let available_tasks: Vec<&str> = template::TEMPLATES
         .get_template_names()
         .filter_map(|name| match name.contains("INCAR") {
             true => Some(name.split('_').last().unwrap()),
@@ -67,6 +69,7 @@ pub fn check_task(task: &str) -> Result<String, String> {
     }
 }
 
+/// Checks if the vasp binary is available.
 pub fn check_vasp_bin(version: &str, task: &str) -> Result<String, String> {
     match VASP_BINS.get(version) {
         Some(bins) => match bins.iter().any(|bin| bin == task) {

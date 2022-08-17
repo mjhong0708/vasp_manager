@@ -33,7 +33,7 @@ impl SubmitJob {
                 }
                 Ok(false) => {
                     println!("Job submission aborted.");
-                    std::process::exit(0);
+                    std::process::exit(1);
                 }
                 Err(e) => {
                     println!("{}", e);
