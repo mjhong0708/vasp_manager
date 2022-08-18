@@ -19,6 +19,7 @@ kpoints = { scheme = "Gamma", mesh = [1, 1, 1] }     # KPOINTS generation
 base = {{ incar_base }}                              # Base INCAR template
 # Currently available templates: relax, singlepoint, bader, aimd
 # To see the contents of templates, run `vasp_manager show_incar`.
+# if base = "custom", existing INCAR file will be used.
 
 [vasp.incar.tags]
 # Additional tags go here
