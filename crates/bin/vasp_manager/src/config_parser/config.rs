@@ -47,7 +47,6 @@ impl JobConfig {
         {
             if std::path::Path::new("INCAR").exists() {
                 println!("Using supplied INCAR");
-                self.write_incar()?;
             } else {
                 eprintln!("INCAR not found. Please create INCAR manually.");
                 std::process::exit(1)
