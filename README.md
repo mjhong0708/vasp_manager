@@ -4,10 +4,15 @@ Cli app for creating and submitting VASP job.
 
 ## Installation
 
+Compile and install with:
+
+
 ```bash
 git clone https://github.com/mjhong0708/vasp_manager.git
 cargo install --path .
 ```
+
+Or, download binary in release tab.
 
 ## Setup
 
