@@ -9,61 +9,61 @@ git clone https://github.com/mjhong0708/vasp_manager.git
 cargo install --path .
 ```
 
-## Configuration
+## Setup
 
-### POTCAR generation
+The following steps are required to setup 1vasp_manager`:
 
-Add `POTCAR_PATH_PREFIX` environment variable to set the path prefix of POTCAR files.
+1. Set environment variable `POTCAR_PREFIX_PATH`
+2. Setup VASP executable binaries
 
-### VASP execution
+### Set environment variable `POTCAR_PREFIX_PATH`
 
-To make this app work, your VASP binary must be stored like:
+The environment variable `POTCAR_PREFIX_PATH` is used to locate POTCAR files and generating POTCAR automatically with respect to given POSCAR.
+VASP POTCAR files are usually locates as following example:
+
+```
+POTCAR_PBE
+├── Ac
+├── Ag 
+...
+├── Zn_sv_GW
+├── Zr_sv
+└── Zr_sv_GW
+```
+
+Then, the environment variable `POTCAR_PREFIX_PATH` should be set to the
+full path of 'POTCAR_PBE' directory, for example, $HOME/.local/POTCAR_PBE.
+In this case, add the following line to your ~/.bashrc or ~/.zshrc:
 
 ```bash
-~/.local/VASP |
-              |-- 5.4.4 - vasp_std, vasp_gam, ...
-              |-- 6.3.1 - vasp_std, vasp_gam, ...
+export POTCAR_PREFIX_PATH=$HOME/.local/POTCAR_PBE
 ```
+
+and restart your shell (or run `source ~/.bashrc`).
+
+### Setup VASP executable binaries
+
+vasp_manger expects VASP executable binaries to be located in $HOME/.local/VASP/bin following hierarchy:
+
+```
+$HOME/.local/VASP/bin
+├── 5.4.4
+│   ├── vasp_std
+│   ├── vasp_gam
+│   ├── vasp_vtst_std
+│   └── vasp_vtst_gam
+├── 6.3.1
+│   ├── vasp_std
+│   ├── vasp_gam
+│   ├── vasp_vtst_std
+│   └── vasp_vtst_gam
+...
+```
+
+So, in order to get vasp_manager working, you need to setup your VASP executable binaries like above.
+If you cannot copy or move binaries because of permission issue, you can just create symbolic link to them.
+
 
 ## Usage
 
-```console
-user@example.com:~$ vasp_manager init --help
-vasp_manager-init 0.1.0
-
-USAGE:
-    vasp_manager init [OPTIONS]
-
-OPTIONS:
-        --bin <VASP_BIN>
-            VASP binary to use. 'vasp_std', 'vasp_gam', ... [default: vasp_std]
-
-    -d, --dir <DIR>
-            The directory to create the job in [default: .]
-
-    -h, --help
-            Print help information
-
-        --task <TASK>
-            Task of the job. Default is 'relax'. `singlepoint` is also available [default: relax]
-
-    -v, --vasp-version <VASP_VERSION>
-            The version of VASP [default: 6.3.1]
-
-    -V, --version
-            Print version information
-
-user@example.com:~$ vasp_manager create_job --help
-vasp_manager-create_job 0.1.0
-
-USAGE:
-    vasp_manager create_job [OPTIONS]
-
-OPTIONS:
-    -d, --dir <DIR>    The directory to create the job in [default: .]
-    -h, --help         Print help information
-    -s, --submit       Whether submit job to slurm or not
-    -V, --version      Print version information
-
-
-```
+Run `vasp_manager` with `--help` option to see usage.
