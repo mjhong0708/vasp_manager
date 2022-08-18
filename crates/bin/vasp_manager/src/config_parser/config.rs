@@ -38,8 +38,24 @@ impl JobConfig {
         self.write_potcar()?;
         println!("Writing KPOINTS");
         self.write_kpoints()?;
-        println!("Writing INCAR");
-        self.write_incar()?;
+
+        if self.toml_contents["vasp"]["incar"]["base"]
+            .as_str()
+            .unwrap()
+            .to_ascii_lowercase()
+            == "custom"
+        {
+            if std::path::Path::new("INCAR").exists() {
+                println!("Using supplied INCAR");
+                self.write_incar()?;
+            } else {
+                eprintln!("INCAR not found. Please create INCAR manually.");
+                std::process::exit(1)
+            }
+        } else {
+            println!("Writing INCAR");
+            self.write_incar()?;
+        }
         println!("Writing Job script");
         self.write_job_script()?;
         Ok(())

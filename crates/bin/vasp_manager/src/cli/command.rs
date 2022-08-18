@@ -6,12 +6,15 @@ use clap::{Parser, Subcommand};
     author = "Minjoon Hong <mjhong0708@yonsei.ac.kr>",
     version,
     about = "Vasp job manager",
-    long_about = "A CLI app for creating & submitting Vasp jobs."
+    long_about = "A CLI app for creating & submitting Vasp jobs.",
+    arg_required_else_help = true
 )]
 #[clap(propagate_version = true)]
 pub struct Cli {
+    #[clap(short = 'g', long = "show-guide", action)]
+    pub show_guide: bool,
     #[clap(subcommand)]
-    pub command: Command,
+    pub command: Option<Command>,
 }
 
 #[derive(Subcommand)]
