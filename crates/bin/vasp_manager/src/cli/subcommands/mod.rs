@@ -17,7 +17,7 @@ use eyre::Result;
 pub fn submit_slurm(job_name: &str) -> Result<()> {
     let output = std::process::Command::new("sbatch")
         .arg("-J")
-        .arg(&format!("'{}'", job_name))
+        .arg(&job_name)
         .arg("job_script.sh")
         .output()?;
     println!("{}", String::from_utf8_lossy(&output.stdout));
