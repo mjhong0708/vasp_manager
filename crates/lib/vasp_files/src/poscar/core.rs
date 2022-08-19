@@ -1,4 +1,5 @@
-use super::impl_io;
+use super::impl_poscar;
+
 use std::fmt::Display;
 use std::str::FromStr;
 
@@ -15,13 +16,20 @@ impl Lattice {
     }
 }
 
-impl Display for Lattice {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        write!(
-            f,
-            "{:.9}  {:.9}  {:.9}\n{:.9}  {:.9}  {:.9}\n{:.9}  {:.9}  {:.9}",
-            self.a[0], self.a[1], self.a[2], self.b[0], self.b[1], self.b[2], self.c[0], self.c[1], self.c[2]
-        )
+#[derive(Debug)]
+pub struct LatticeParams {
+    pub a: f64,
+    pub b: f64,
+    pub c: f64,
+    pub alpha: f64,
+    pub beta: f64,
+    pub gamma: f64,
+}
+
+impl LatticeParams {
+    #[rustfmt::skip]
+    pub fn new(a: f64, b: f64, c: f64, alpha: f64, beta: f64, gamma: f64) -> Self {
+        LatticeParams { a, b, c, alpha, beta, gamma }
     }
 }
 
@@ -32,12 +40,12 @@ pub enum CoordinateSystem {
 }
 
 impl FromStr for CoordinateSystem {
-    type Err = impl_io::PoscarParseError;
+    type Err = impl_poscar::PoscarParseError;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
             s if s.to_ascii_lowercase().starts_with('c') => Ok(CoordinateSystem::Cartesian),
             s if s.to_ascii_lowercase().starts_with('d') => Ok(CoordinateSystem::Direct),
-            _ => Err(impl_io::PoscarParseError::UnknownCoordinateSystem(s.to_string())),
+            _ => Err(impl_poscar::PoscarParseError::UnknownCoordinateSystem(s.to_string())),
         }
     }
 }

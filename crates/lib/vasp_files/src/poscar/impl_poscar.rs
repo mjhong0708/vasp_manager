@@ -1,4 +1,4 @@
-use super::{Lattice, Poscar, SelectiveDynamics};
+use super::core::{Lattice, LatticeParams, Poscar, SelectiveDynamics};
 use std::fmt::Display;
 use std::fs::read_to_string;
 use std::str::FromStr;
@@ -113,13 +113,6 @@ impl FromStr for Poscar {
     }
 }
 
-impl Poscar {
-    pub fn from_file(path: &str) -> Result<Self, PoscarParseError> {
-        let contents = read_to_string(path).map_err(|_| FileNotFound(path.to_string()))?;
-        Poscar::from_str(&contents)
-    }
-}
-
 impl Display for Poscar {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         writeln!(f, "Poscar")?;
@@ -151,5 +144,20 @@ impl Display for Poscar {
             writeln!(f)?;
         }
         Ok(())
+    }
+}
+
+impl Poscar {
+    pub fn from_file(path: &str) -> Result<Self, PoscarParseError> {
+        let contents = read_to_string(path).map_err(|_| FileNotFound(path.to_string()))?;
+        Poscar::from_str(&contents)
+    }
+
+    pub fn get_lattice_params(&self) -> LatticeParams {
+        self.lattice.into()
+    }
+
+    pub fn get_reciprocal_lattice(&self) -> Lattice {
+        self.lattice.reciprocal()
     }
 }

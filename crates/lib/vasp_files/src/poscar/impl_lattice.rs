@@ -1,43 +1,13 @@
-use super::{Lattice, Poscar};
-use nalgebra::{Matrix3, RowVector3, Vector3};
-
-#[derive(Debug)]
-pub struct LatticeParams {
-    pub a: f64,
-    pub b: f64,
-    pub c: f64,
-    pub alpha: f64,
-    pub beta: f64,
-    pub gamma: f64,
-}
-
-impl LatticeParams {
-    #[rustfmt::skip]
-    pub fn new(a: f64, b: f64, c: f64, alpha: f64, beta: f64, gamma: f64) -> Self {
-        LatticeParams { a, b, c, alpha, beta, gamma }
-    }
-}
-
-impl From<Lattice> for LatticeParams {
-    fn from(lattice: Lattice) -> Self {
-        let a_vec = Vector3::new(lattice.a[0], lattice.a[1], lattice.a[2]);
-        let b_vec = Vector3::new(lattice.b[0], lattice.b[1], lattice.b[2]);
-        let c_vec = Vector3::new(lattice.c[0], lattice.c[1], lattice.c[2]);
-        let a = a_vec.norm();
-        let b = b_vec.norm();
-        let c = c_vec.norm();
-
-        let alpha = b_vec.angle(&c_vec).to_degrees();
-        let beta = a_vec.angle(&c_vec).to_degrees();
-        let gamma = a_vec.angle(&b_vec).to_degrees();
-        LatticeParams::new(a, b, c, alpha, beta, gamma)
-    }
-}
+use super::core::{Lattice, LatticeParams};
+use nalgebra::Vector3;
+use nalgebra::{Matrix3, RowVector3};
+use std::fmt::Display;
 
 impl Lattice {
     pub fn lattice_params(self) -> LatticeParams {
         self.into()
     }
+
     pub fn to_matrix(self) -> Matrix3<f64> {
         let a_vec = RowVector3::new(self.a[0], self.a[1], self.a[2]);
         let b_vec = RowVector3::new(self.b[0], self.b[1], self.b[2]);
@@ -69,19 +39,36 @@ impl Lattice {
     }
 }
 
-impl Poscar {
-    pub fn get_lattice_params(&self) -> LatticeParams {
-        self.lattice.into()
+impl Display for Lattice {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(
+            f,
+            "{:.9}  {:.9}  {:.9}\n{:.9}  {:.9}  {:.9}\n{:.9}  {:.9}  {:.9}",
+            self.a[0], self.a[1], self.a[2], self.b[0], self.b[1], self.b[2], self.c[0], self.c[1], self.c[2]
+        )
     }
+}
 
-    pub fn get_reciprocal_lattice(&self) -> Lattice {
-        self.lattice.reciprocal()
+impl From<Lattice> for LatticeParams {
+    fn from(lattice: Lattice) -> Self {
+        let a_vec = Vector3::new(lattice.a[0], lattice.a[1], lattice.a[2]);
+        let b_vec = Vector3::new(lattice.b[0], lattice.b[1], lattice.b[2]);
+        let c_vec = Vector3::new(lattice.c[0], lattice.c[1], lattice.c[2]);
+        let a = a_vec.norm();
+        let b = b_vec.norm();
+        let c = c_vec.norm();
+
+        let alpha = b_vec.angle(&c_vec).to_degrees();
+        let beta = a_vec.angle(&c_vec).to_degrees();
+        let gamma = a_vec.angle(&b_vec).to_degrees();
+        LatticeParams::new(a, b, c, alpha, beta, gamma)
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use super::{Lattice, LatticeParams, Poscar};
+    use super::super::core::Poscar;
+    use super::{Lattice, LatticeParams};
     #[test]
     fn test_lattice_params() {
         let lattice = Lattice {
