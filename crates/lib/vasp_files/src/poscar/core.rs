@@ -1,6 +1,4 @@
-pub mod geometry;
-pub mod io;
-
+use super::io;
 use std::fmt::Display;
 use std::str::FromStr;
 

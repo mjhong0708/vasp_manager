@@ -1,7 +1,7 @@
 use super::config;
 use eyre::Result;
-use potcar::{generate_potcar, PotcarMode};
 use std::collections::HashMap;
+use vasp_files::potcar::{generate_potcar, PotcarMode};
 
 impl config::JobConfig {
     /// Generates POTCAR file from POSCAR.

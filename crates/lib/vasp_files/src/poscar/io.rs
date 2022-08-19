@@ -1,4 +1,4 @@
-use crate::{Lattice, Poscar, SelectiveDynamics};
+use super::{Lattice, Poscar, SelectiveDynamics};
 use std::fmt::Display;
 use std::fs::read_to_string;
 use std::str::FromStr;

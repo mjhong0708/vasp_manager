@@ -1,7 +1,7 @@
 use super::config;
 use eyre::Result;
-use kpoints::{Kpoints, KpointsScheme};
-use poscar::Poscar;
+use vasp_files::kpoints::{Kpoints, KpointsScheme};
+use vasp_files::poscar::Poscar;
 
 impl config::JobConfig {
     /// Generates KPOINTS file from POSCAR.

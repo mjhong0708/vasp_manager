@@ -1,3 +1,7 @@
+pub mod kpoints;
+pub mod poscar;
+pub mod potcar;
+
 #[cfg(test)]
 mod tests {
     #[test]

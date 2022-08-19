@@ -1,4 +1,4 @@
-use crate::{Lattice, Poscar};
+use super::{Lattice, Poscar};
 use nalgebra::{Matrix3, RowVector3, Vector3};
 
 #[derive(Debug)]
@@ -81,7 +81,7 @@ impl Poscar {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use super::{Lattice, LatticeParams, Poscar};
     #[test]
     fn test_lattice_params() {
         let lattice = Lattice {

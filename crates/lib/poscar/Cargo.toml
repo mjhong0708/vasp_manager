@@ -1,8 +1,0 @@
-[package]
-name = "poscar"
-version = "0.1.2"
-edition = "2021"
-
-[dependencies]
-nalgebra = "0.31.1"
-thiserror = "1.0.32"

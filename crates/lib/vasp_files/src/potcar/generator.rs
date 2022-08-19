@@ -1,14 +1,21 @@
-pub mod poscar;
-pub mod potcar;
+use super::core::{PotcarMode, POTCAR_DATA};
+use super::util::extract_elements;
 use eyre::Result;
 use std::collections::HashMap;
 use std::io::Write;
 use std::path::Path;
 use std::{env, fs};
 
-pub enum PotcarMode {
-    Recommended,
-    Custom(HashMap<String, String>),
+fn get_recommended_potcars(elems: &[String]) -> Vec<String> {
+    elems
+        .iter()
+        .map(|e| POTCAR_DATA.iter().find(|p| &p.element == e && p.recommended).unwrap())
+        .map(|p| p.potcar_name.to_string())
+        .collect()
+}
+
+fn get_potcars_from_map(elems: &[String], potcar_map: &HashMap<String, String>) -> Vec<String> {
+    elems.iter().map(|e| potcar_map.get(e).unwrap().to_string()).collect()
 }
 
 pub fn generate_potcar(input_dir: &str, input_poscar: &str, mode: PotcarMode) -> Result<()> {
@@ -21,10 +28,10 @@ pub fn generate_potcar(input_dir: &str, input_poscar: &str, mode: PotcarMode) ->
     let potcar_destination = Path::new(input_dir).join("POTCAR");
 
     let input_file_path = format!("{}/{}", input_dir, input_poscar);
-    let elements = poscar::extract_elements(&input_file_path);
+    let elements = extract_elements(&input_file_path);
     let potcars = match mode {
-        PotcarMode::Recommended => potcar::get_recommended_potcars(&elements),
-        PotcarMode::Custom(potcar_map) => potcar::get_potcars_from_map(&elements, &potcar_map),
+        PotcarMode::Recommended => get_recommended_potcars(&elements),
+        PotcarMode::Custom(potcar_map) => get_potcars_from_map(&elements, &potcar_map),
     };
     let potcar_paths = potcars
         .into_iter()

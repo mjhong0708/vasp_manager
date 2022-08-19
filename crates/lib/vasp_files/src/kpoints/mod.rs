@@ -1,4 +1,4 @@
-use poscar::Lattice;
+use super::poscar::Lattice;
 use std::{fmt::Display, str::FromStr};
 use thiserror::Error;
 
@@ -77,7 +77,7 @@ impl Display for Kpoints {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use poscar::Poscar;
+    use crate::poscar::Poscar;
 
     #[test]
     fn test_kpoints() {
