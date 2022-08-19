@@ -1,4 +1,4 @@
-use super::io;
+use super::impl_io;
 use std::fmt::Display;
 use std::str::FromStr;
 
@@ -32,12 +32,12 @@ pub enum CoordinateSystem {
 }
 
 impl FromStr for CoordinateSystem {
-    type Err = io::PoscarParseError;
+    type Err = impl_io::PoscarParseError;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
             s if s.to_ascii_lowercase().starts_with('c') => Ok(CoordinateSystem::Cartesian),
             s if s.to_ascii_lowercase().starts_with('d') => Ok(CoordinateSystem::Direct),
-            _ => Err(io::PoscarParseError::UnknownCoordinateSystem(s.to_string())),
+            _ => Err(impl_io::PoscarParseError::UnknownCoordinateSystem(s.to_string())),
         }
     }
 }

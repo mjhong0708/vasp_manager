@@ -1,6 +1,6 @@
 mod core;
-mod geometry;
-mod io;
+mod impl_geometry;
+mod impl_io;
 
 pub use self::core::{CoordinateSystem, Lattice, Poscar, SelectiveDynamics};
-pub use self::geometry::LatticeParams;
+pub use self::impl_geometry::LatticeParams;
