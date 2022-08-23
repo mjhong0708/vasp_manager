@@ -1,6 +1,6 @@
 # vasp_manager
 
-Cli app for creating and submitting VASP job.
+Cli app for creating and submitting VASP job by SLURM.
 
 ## Installation
 
