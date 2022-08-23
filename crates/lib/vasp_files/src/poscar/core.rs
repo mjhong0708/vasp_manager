@@ -89,19 +89,3 @@ pub struct Poscar {
     pub coord_type: CoordinateSystem,
     pub selective_dynamics: Option<Vec<[SelectiveDynamics; 3]>>,
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    #[test]
-    fn test_read_no_seldyn() {
-        let poscar = Poscar::from_file("test_data/POSCAR").unwrap();
-        println!("{}", poscar);
-    }
-
-    #[test]
-    fn test_read_seldyn() {
-        let poscar = Poscar::from_file("test_data/POSCAR_slab").unwrap();
-        println!("{}", poscar);
-    }
-}
