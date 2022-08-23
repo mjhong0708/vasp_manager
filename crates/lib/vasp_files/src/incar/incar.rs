@@ -9,6 +9,10 @@ pub struct Incar {
 }
 
 impl Incar {
+    pub fn from_file(path: &str) -> Result<Self, String> {
+        let s = std::fs::read_to_string(path).map_err(|e| e.to_string())?;
+        Self::from_str(&s)
+    }
     pub fn update(&mut self, tag: IncarTag) -> Result<(), String> {
         let name = tag.name();
         if INCAR_TAGS.contains_key(name) {
